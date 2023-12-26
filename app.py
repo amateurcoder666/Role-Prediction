@@ -1,6 +1,5 @@
 import joblib
-import numpy as np
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for
 from itertools import islice
 
 app = Flask(__name__,template_folder='templates')
