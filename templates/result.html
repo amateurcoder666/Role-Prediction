@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1,h2 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .predicted-role {
+            font-size: 24px;
+            text-align: center;
+            margin-top: 20px;
+            color: #1e90ff;
+        }
+        
+        p {
+            text-align: center;
+            margin-top: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Predicted Job Role:</h1>
+        <div class="predicted-role">
+            <p>{{prediction}}</p>
+        </div>
+        <p>Based on the provided features.</p>
+    </div>
+
+    <h2>
+        Top 3 jobs:
+    </h2>
+    <canvas id="barChart" width = "500px" height = "100px"></canvas>
+
+    <script>
+      var topRoles = {{ top_roles | safe }};
+      var confidenceScores = {{ confidence_scores | safe }};
+
+      var ctx = document.getElementById('barChart').getContext('2d');
+      var barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: topRoles,
+          datasets: [{
+            label: 'Confidence Scores',
+            data: confidenceScores,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.5)',
+              'rgba(54, 162, 235, 0.5)',
+              'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    </script>
+</body>
+
+</html>
