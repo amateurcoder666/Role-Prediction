@@ -24,9 +24,12 @@ confidence_scores = []
 
 @app.route("/",methods= ["GET","POST"])
 def Home():
+    global prediction, top_roles, confidence_scores
+    prediction = "Not Interested"
+    top_roles = []
+    confidence_scores = []
     if request.method == 'POST':
         input = [feature_inputs[request.form[i]] for i in request.form]
-        global prediction
         if  4 in set(input) and len(set(input)) == 1 :
             prediction = "Not Interested"
             return redirect(url_for('predict'))
@@ -42,13 +45,13 @@ def Home():
             'Information Security Specialist', 'Networking Engineer',
             'Project Manager', 'Software Developer', 'Software tester',
             'Technical Writer'],predictions[0]))
-            print(predictions)
+            #print(predictions)
             predictions = {k: v for k, v in sorted(predictions.items(), key=lambda item: item[1], reverse= True)}
             result = dict(islice(predictions.items(), 3))
-            print(result)
-            global top_roles
+            #print(result)
+            #global top_roles
             top_roles = list(result.keys())
-            global confidence_scores
+            #global confidence_scores
             confidence_scores = list(result.values())
             return redirect(url_for('predict'))
     return render_template("index.html")
